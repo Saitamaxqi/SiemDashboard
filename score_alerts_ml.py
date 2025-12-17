@@ -164,22 +164,22 @@ def model_score(alert: dict, model) -> int:
     # --- Heuristic corrections for your environment ---
 
     # Strong SSH brute force → must be high risk
-    # if feats["is_ssh"] and feats["is_bruteforce"]:
-    #     if feats["rule_level"] >= 8:
-    #         base_score = max(base_score, 90)
-    #     else:
-    #         base_score = max(base_score, 60)
+    if feats["is_ssh"] and feats["is_bruteforce"]:
+        if feats["rule_level"] >= 8:
+            base_score = max(base_score, 90)
+        else:
+            base_score = max(base_score, 60)
 
-    # # Very low-level, purely internal noise with no attack flags → keep low
-    # if (
-    #     feats["rule_level"] <= 2
-    #     and feats["is_external_ip"] == 0
-    #     and feats["is_ssh"] == 0
-    #     and feats["is_bruteforce"] == 0
-    #     and feats["is_web_attack"] == 0
-    #     and feats["is_suricata"] == 0
-    # ):
-    #     base_score = min(base_score, 20)
+    # Very low-level, purely internal noise with no attack flags → keep low
+    if (
+        feats["rule_level"] <= 2
+        and feats["is_external_ip"] == 0
+        and feats["is_ssh"] == 0
+        and feats["is_bruteforce"] == 0
+        and feats["is_web_attack"] == 0
+        and feats["is_suricata"] == 0
+    ):
+        base_score = min(base_score, 20)
 
     return int(base_score)
 
